@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment History</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/user/userIndex">PhotoBlog</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/adminIndex">ADMIN PANEL</a>
+                </li>
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/user/photos/upload">Upload Photo</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user/myPhotos">My Photos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user/profile">My Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user/commentHistory">My Comment History</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user/photoHistory">My Photo History</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Comment History</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Comment</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over the comments made by the user -->
+        <tr th:each="c : ${comment}">
+            <td th:text="${c.text}"></td>
+            <td th:text="${c.createdAt}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+    <form th:action="@{'/user/commentHistory/delete'}" class="float-right">
+        <button class="btn btn-danger">Clear All</button>
+    </form>
+    <form th:action="@{'/user/userIndex'}" class="float-right">
+        <button class="btn btn-primary">Back</button>
+    </form>
+</div>
+</body>
+</html>

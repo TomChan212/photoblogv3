@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/user/userIndex">PhotoBlog</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/user/profile">My Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user/photos/upload">Upload</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Photo</h4>
+                </div>
+                <div class="card-body">
+
+
+                    <p class="card-text"><b>Title:</b> <span th:text="${photo.title}"></span></p>
+                    <img class="card-img-top" src = "" th:src="@{'/' +${photo.image}}" alt="Card image cap">
+
+                    <p class="card-text"><b>Description:</b> <span th:text="${photo.description}"></span></p>
+                    <p class="card-text"><b>Upload Date:</b> <span th:text="${photo.uploadDateTime}"></span></p>
+                    <p class="card-text"><b>Uploaded By:</b> <span th:text="${photo.users.username}"></span></p>
+
+                    <form th:action="@{'/user/photos/delete/'+${photo.id}}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') or photo.users.email == #authentication.principal.username}">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                    <form th:action="@{'/user/photos/edit/'+${photo.id}}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') or photo.users.email == #authentication.principal.username}">
+                        <button class="btn btn-primary">Edit</button>
+                    </form>
+
+                    <form th:action="@{'/user/userIndex'}" class="float-right">
+                        <button class="btn btn-primary">Back</button>
+                    </form>
+
+                </div>
+
+            </div>
+            <div>
+
+                <!-- Display comments -->
+                <div class="container my-5">
+                    <div class="row justify-content-left">
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Comments</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div th:each="c : ${comments}" class="mb-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p class="card-text"><b>Comment:</b> <span th:text="${c.text}"></span></p>
+                                                <p class="card-text"><b>Comment Date:</b> <span th:text="${c.createdAt}"></span></p>
+                                                <p class="card-text"><b>Commented By:</b> <span th:text="${c.users.username}"></span></p>
+                                                <form th:action="@{'/user/comment/delete/'+${c.id}}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') or c.users.email == #authentication.principal.username}" class="mt-3">
+                                                    <button class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Add comment form -->
+
+                    <div class="container my-5">
+                        <div class="row justify-left-center">
+                            <div class="col-md-9">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>Add Comment</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <form th:action="@{'/user/comment/'+${photo.id}}" method="post">
+                                            <div class="form-group">
+                                                <label for="comment">Comment:</label>
+                                                <textarea class="form-control" id="comment" name="comment" rows="5" required></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Add Comment</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

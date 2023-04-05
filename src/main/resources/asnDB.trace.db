@@ -1,0 +1,15 @@
+2023-04-02 22:08:21 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "show [*]schema"; SQL statement:
+show schema [42000-214]
+2023-04-02 22:08:27 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "show [*]schema"; SQL statement:
+show schema [42000-214]
+2023-04-02 22:08:43 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SHOW [*]SCHEMA"; SQL statement:
+SHOW SCHEMA [42000-214]
+2023-04-02 22:09:54 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SHOW [*]PUBLIC SCHEMAS"; SQL statement:
+SHOW PUBLIC SCHEMAS [42000-214]
+2023-04-02 22:09:58 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SHOW [*]PUBLIC SCHEMA"; SQL statement:
+SHOW PUBLIC SCHEMA [42000-214]
